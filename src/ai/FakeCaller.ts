@@ -1,4 +1,4 @@
-import { AIRequst } from "./AIRequest";
+import { AIRequest } from "./AIRequest";
 import { AIResponse } from "./AIResponse";
 import { APICaller } from "./APICaller";
 import fs from "fs";
@@ -9,7 +9,7 @@ class FakeCaller implements APICaller {
     private file!: string;
     private line!: number;
     private text!: string;
-    
+
     FakeCaller() {
         this.apiKey = "";
         this.file = "";
@@ -25,7 +25,7 @@ class FakeCaller implements APICaller {
         return !!this.apiKey;
     }
 
-    sendRequest(request: AIRequst) {
+    sendRequest(request: AIRequest) {
         let response: AIResponse = {request: request, text: this.text}
         if (!!this.file)
             response.filename = this.file;
@@ -34,7 +34,7 @@ class FakeCaller implements APICaller {
         return response;
     }
 
-    followUp(response: AIResponse, request: AIRequst) {
+    followUp(response: AIResponse, request: AIRequest) {
         let finalResponse: AIResponse = {request: request, filename: response.filename, line: response.line, text: this.text}
         return finalResponse;
     }

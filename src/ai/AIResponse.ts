@@ -1,7 +1,7 @@
-import { AIRequst } from "./AIRequest";
+import { AIRequest } from "./AIRequest";
 
-export interface AIResponse {
-    request: AIRequst;
+export interface AIFeedback {
+    request: AIRequest;
     filename?: String;
     line?: number;
     text: string;

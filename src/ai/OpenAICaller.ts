@@ -1,4 +1,4 @@
-import { AIRequst } from "./AIRequest";
+import { AIRequest } from "./AIRequest";
 import { AIResponse } from "./AIResponse";
 import { APICaller } from "./APICaller";
 
@@ -9,7 +9,7 @@ class OpenAICaller implements APICaller {
         OpenAICaller() {
             this.apiKey = "";
         }
-        
+
         setKey(apiKey: string) {
             this.apiKey = apiKey;
         }
@@ -20,7 +20,7 @@ class OpenAICaller implements APICaller {
             return false;
         }
     
-        sendRequest(request: AIRequst) {
+        sendRequest(request: AIRequest) {
             let response: AIResponse = {request: request, text: ""}
 
             // TODO: implement this
@@ -28,7 +28,7 @@ class OpenAICaller implements APICaller {
             return response;
         }
     
-        followUp(response: AIResponse, request: AIRequst) {
+        followUp(response: AIResponse, request: AIRequest) {
             let finalResponse: AIResponse = {request: request, filename: response.filename, line: response.line, text: ""}
 
             // TODO: implement this
