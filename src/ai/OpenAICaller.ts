@@ -4,8 +4,12 @@ import { APICaller } from "./APICaller";
 
 class OpenAICaller implements APICaller {
     // Used for making API calls to OpenAI in a simple format for the rest of the code to use
-        private apiKey: string = "";
+        private apiKey!: string;
     
+        OpenAICaller() {
+            this.apiKey = "";
+        }
+        
         setKey(apiKey: string) {
             this.apiKey = apiKey;
         }

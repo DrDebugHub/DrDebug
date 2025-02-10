@@ -5,10 +5,17 @@ import fs from "fs";
 
 class FakeCaller implements APICaller {
     // Used for testing APICaller without having to rely on the potentially variable or broken OpenAICaller
-    private apiKey: string = "";
-    private file: string = "";
-    private line: number = -1;
-    private text: string = "";
+    private apiKey!: string;
+    private file!: string;
+    private line!: number;
+    private text!: string;
+    
+    FakeCaller() {
+        this.apiKey = "";
+        this.file = "";
+        this.line = -1;
+        this.text = "";
+    }
 
     setKey(apiKey: string) {
         this.apiKey = apiKey;
