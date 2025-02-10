@@ -1,5 +1,5 @@
 import { AIRequest } from "./AIRequest";
-import { AIResponse } from "./AIResponse";
+import { AIFeedback } from "./AIFeedback";
 import { APICaller } from "./APICaller";
 import fs from "fs";
 
@@ -26,7 +26,7 @@ class FakeCaller implements APICaller {
     }
 
     sendRequest(request: AIRequest) {
-        let response: AIResponse = {request: request, text: this.text}
+        let response: AIFeedback = {request: request, text: this.text}
         if (!!this.file)
             response.filename = this.file;
         if (this.line >= 0)
@@ -34,8 +34,8 @@ class FakeCaller implements APICaller {
         return response;
     }
 
-    followUp(response: AIResponse, request: AIRequest) {
-        let finalResponse: AIResponse = {request: request, filename: response.filename, line: response.line, text: this.text}
+    followUp(response: AIFeedback, request: AIRequest) {
+        let finalResponse: AIFeedback = {request: request, filename: response.filename, line: response.line, text: this.text}
         return finalResponse;
     }
 

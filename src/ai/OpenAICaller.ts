@@ -1,5 +1,5 @@
 import { AIRequest } from "./AIRequest";
-import { AIResponse } from "./AIResponse";
+import { AIFeedback } from "./AIFeedback";
 import { APICaller } from "./APICaller";
 
 class OpenAICaller implements APICaller {
@@ -21,15 +21,15 @@ class OpenAICaller implements APICaller {
         }
     
         sendRequest(request: AIRequest) {
-            let response: AIResponse = {request: request, text: ""}
+            let response: AIFeedback = {request: request, text: ""}
 
             // TODO: implement this
 
             return response;
         }
     
-        followUp(response: AIResponse, request: AIRequest) {
-            let finalResponse: AIResponse = {request: request, filename: response.filename, line: response.line, text: ""}
+        followUp(response: AIFeedback, request: AIRequest) {
+            let finalResponse: AIFeedback = {request: request, filename: response.filename, line: response.line, text: ""}
 
             // TODO: implement this
 
