@@ -1,73 +1,33 @@
 import { AIRequest } from "./AIRequest";
 import { AIFeedback } from "./AIFeedback";
 import { APICaller } from "./APICaller";
-import fs from "fs";
+import vscode, { Uri } from "vscode";
 
-class FakeCaller implements APICaller {
-    // Used for testing APICaller without having to rely on the potentially variable or broken OpenAICaller
-    private apiKey!: string;
-    private file!: string;
-    private line!: number;
-    private text!: string;
+export class FakeCaller implements APICaller {
 
-    FakeCaller() {
-        this.apiKey = "";
-        this.file = "";
-        this.line = -1;
-        this.text = "";
-    }
-
-    setKey(apiKey: string) {
-        this.apiKey = apiKey;
+    constructor(context: vscode.ExtensionContext) {
+        vscode.commands.executeCommand("vscode.openFolder", Uri.joinPath(context.extensionUri, "src", "test", "workspace"));
     }
 
     isConnected() {
-        return !!this.apiKey;
+        return true;
     }
 
-    sendRequest(request: AIRequest) {
-        let response: AIFeedback = {request: request, text: this.text}
-        if (!!this.file)
-            response.filename = this.file;
-        if (this.line >= 0)
-            response.line = this.line;
-        return response;
+    sendRequest(request: AIRequest): Promise<AIFeedback> {
+        let response: AIFeedback = {request: request, text: ""}
+
+        // TODO: implement this
+
+        return new Promise(() => response);
     }
 
-    followUp(response: AIFeedback, request: AIRequest) {
-        let finalResponse: AIFeedback = {request: request, filename: response.filename, line: response.line, text: this.text}
-        return finalResponse;
+    followUp(response: AIFeedback): Promise<AIFeedback> {
+        let newRequest: AIRequest = { prompt: "Test" };
+        let finalResponse: AIFeedback = {request: newRequest, filename: response.filename, line: response.line, text: ""}
+
+        // TODO: implement this
+
+        return new Promise(() => finalResponse);
     }
 
-    setFile(file: string) {
-        if (fs.existsSync(file)) {
-            this.file = file;
-            return true;
-        }
-        return false;
-    }
-
-    getFile() {
-        return this.file;
-    }
-
-    setLine(line: number) {
-        if (Number.isInteger(line) && line >= 0) {
-            this.line = line;
-            return true;
-        }
-        return false;
-    }
-
-    getLine() {
-        return this.line;
-    }
-
-    setText(text: string) {
-        if (text != null) {
-            this.text = text;
-            return true;
-        }
-        return false;
-    }
 }

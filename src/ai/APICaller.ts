@@ -2,8 +2,7 @@ import { AIRequest } from "./AIRequest";
 import { AIFeedback } from "./AIFeedback";
 
 export interface APICaller {
-    setKey(apiKey: string): void;
     isConnected(): boolean;
-    sendRequest(request: AIRequest): AIFeedback;
-    followUp(respone: AIFeedback, request: AIRequest): AIFeedback;
+    sendRequest(request: AIRequest): Promise<AIFeedback>;
+    followUp(respone: AIFeedback): Promise<AIFeedback>;
 }
