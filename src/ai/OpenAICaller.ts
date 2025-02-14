@@ -1,3 +1,4 @@
+import vscode from "vscode";
 import { AIRequest } from "../types/AIRequest";
 import { AIFeedback } from "../types/AIFeedback";
 import { APICaller } from "../types/APICaller";
@@ -10,6 +11,14 @@ export class OpenAICaller implements APICaller {
     }
 
     async sendRequest(request: AIRequest): Promise<AIFeedback> {
+        if(!this.isConnected()) {
+            const answer = await vscode.window.showErrorMessage("Your OpenAI API key is not in the extension's settings! Please set it before continuing.", "Go To Settings");
+            if(answer === "Go To Settings") {
+                vscode.env.openExternal(vscode.Uri.parse("vscode://settings/debuggingAiAssistant.apiKey"));
+            }
+            return Promise.reject();
+        }
+
         // TODO: implement this
         return settings.openai.chat.completions.create({
             model: "gpt-4o-mini",
@@ -49,6 +58,12 @@ export class OpenAICaller implements APICaller {
                 text: response.choices[0].message.content!
             };
             return feedback;
+        }, async(_) => {
+            const answer = await vscode.window.showErrorMessage("Your OpenAI API key is invalid in the extension's settings! Please correct it before continuing.", "Go To Settings");
+            if(answer === "Go To Settings") {
+                vscode.env.openExternal(vscode.Uri.parse("vscode://settings/debuggingAiAssistant.apiKey"));
+            }
+            return Promise.reject();
         });
     }
 
