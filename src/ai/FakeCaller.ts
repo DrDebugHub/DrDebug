@@ -1,6 +1,6 @@
-import { AIRequest } from "./AIRequest";
-import { AIFeedback } from "./AIFeedback";
-import { APICaller } from "./APICaller";
+import { AIRequest } from "../types/AIRequest";
+import { AIFeedback } from "../types/AIFeedback";
+import { APICaller } from "../types/APICaller";
 import vscode, { Uri } from "vscode";
 
 export class FakeCaller implements APICaller {
