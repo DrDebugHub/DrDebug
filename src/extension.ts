@@ -3,13 +3,9 @@ import OpenAI from "openai";
 import { OpenAICaller } from "./ai/OpenAICaller";
 
 export function activate(context: vscode.ExtensionContext) {
-	const organizationId: string = vscode.workspace.getConfiguration("debuggingAiAssistant").get("organizationId")!;
-	const projectId: string = vscode.workspace.getConfiguration("debuggingAiAssistant").get("projectId")!;
 	const apiKey: string = vscode.workspace.getConfiguration("debuggingAiAssistant").get("apiKey")!;
 
 	const openai = new OpenAI({
-		organization: organizationId,
-		project: projectId,
 		apiKey: apiKey
 	});
 
