@@ -24,14 +24,6 @@
       {
         "title": "Debugging AI Assistant",
         "properties": {
-          "debuggingAiAssistant.organizationId": {
-            "type": "string",
-            "description": "The organization ID used for OpenAI requests on behalf of the assistant."
-          },
-          "debuggingAiAssistant.projectId": {
-            "type": "string",
-            "description": "The project ID used for OpenAI requests on behalf of the assistant."
-          },
           "debuggingAiAssistant.apiKey": {
             "type": "string",
             "description": "The API key used for OpenAI requests on behalf of the assistant."

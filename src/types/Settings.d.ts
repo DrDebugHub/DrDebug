@@ -1,5 +1,5 @@
+import OpenAI from "openai";
+
 export interface Settings {
-    organizationId: string,
-    projectId: string,
-    apiKey: string
+    openai: OpenAI
 }

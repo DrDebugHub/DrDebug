@@ -1,23 +1,17 @@
 import { AIRequest } from "../types/AIRequest";
 import { AIFeedback } from "../types/AIFeedback";
 import { APICaller } from "../types/APICaller";
-import OpenAI from "openai";
+import { settings } from "../settings";
 
 export class OpenAICaller implements APICaller {
 
-    private openai: OpenAI;
-
-    constructor(openai: OpenAI) {
-        this.openai = openai;
-    }
-
     isConnected(): boolean {
-        return !!this.openai.organization && !!this.openai.project && !!this.openai.apiKey!;
+        return !!settings.openai.apiKey;
     }
 
     async sendRequest(request: AIRequest): Promise<AIFeedback> {
         // TODO: implement this
-        return this.openai.chat.completions.create({
+        return settings.openai.chat.completions.create({
             model: "gpt-4o-mini",
             messages: [
                 {
