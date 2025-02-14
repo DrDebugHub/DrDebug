@@ -8,10 +8,10 @@ Debugging AI Assistant is an integrated tool that can intelligently suggest fixe
 The application should be directly integrated into the VS Code editor to support a variety of development workflows and programming languages. The debugging assistant will be built-in as an extension for the code editor.
 
 ### Terminal Access
-The extension should have read permissions on the user’s terminal so that it can respond to various debugging requests with all relevant information.
+The extension should have read permissions on the user's terminal so that it can respond to various debugging requests with all relevant information.
 
 ### File System Acces
-The extension should have read permissions on the user’s open workspace so that it can use it as context for assisting the user with debugging their projects.
+The extension should have read permissions on the user's open workspace so that it can use it as context for assisting the user with debugging their projects.
 
 ### AI Integration
 Under the hood, the extension should be able to communicate with an AI model that will have the capability to cognitively understand and parse complex coding projects.
