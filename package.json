@@ -1,7 +1,8 @@
 {
   "name": "debugging-ai-assistant",
   "displayName": "Debugging AI Assistant",
-  "description": "Debugging AI Assistant",
+  "description": "Debugging AI Assistant: An integrated debugging tool to streamline the programming process.",
+  "icon": "images/debug-logo-final.png",
   "version": "0.0.1",
   "engines": {
     "vscode": "^1.96.0"
