@@ -21,7 +21,7 @@
         "title": "Hello World"
       }
     ],
-    "configuration":[
+    "configuration": [
       {
         "title": "Debugging AI Assistant",
         "properties": {
@@ -53,6 +53,7 @@
     "typescript": "^5.7.3"
   },
   "dependencies": {
+    "debugging-ai-assistant": "file:",
     "openai": "^4.83.0"
   }
 }
