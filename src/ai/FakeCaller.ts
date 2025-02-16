@@ -14,7 +14,7 @@ export class FakeCaller implements APICaller {
     }
 
     sendRequest(request: AIRequest): Promise<AIFeedback> {
-        let response: AIFeedback = {request: request, text: ""}
+        let response: AIFeedback = {request: request, text: ""};
 
         // TODO: implement this
 
@@ -23,7 +23,7 @@ export class FakeCaller implements APICaller {
 
     followUp(response: AIFeedback): Promise<AIFeedback> {
         let newRequest: AIRequest = { prompt: "Test" };
-        let finalResponse: AIFeedback = {request: newRequest, filename: response.filename, line: response.line, text: ""}
+        let finalResponse: AIFeedback = {request: newRequest, filename: response.filename, line: response.line, text: ""};
 
         // TODO: implement this
 
