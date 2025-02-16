@@ -21,7 +21,7 @@ class OpenAICaller implements APICaller {
         }
     
         sendRequest(request: AIRequest) {
-            let response: AIFeedback = {request: request, text: ""}
+            let response: AIFeedback = {request: request, text: ""};
 
             // TODO: implement this
 
@@ -29,7 +29,7 @@ class OpenAICaller implements APICaller {
         }
     
         followUp(response: AIFeedback, request: AIRequest) {
-            let finalResponse: AIFeedback = {request: request, filename: response.filename, line: response.line, text: ""}
+            let finalResponse: AIFeedback = {request: request, filename: response.filename, line: response.line, text: ""};
 
             // TODO: implement this
 

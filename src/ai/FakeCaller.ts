@@ -26,16 +26,16 @@ class FakeCaller implements APICaller {
     }
 
     sendRequest(request: AIRequest) {
-        let response: AIFeedback = {request: request, text: this.text}
+        let response: AIFeedback = {request: request, text: this.text};
         if (!!this.file)
-            response.filename = this.file;
+            {response.filename = this.file;}
         if (this.line >= 0)
-            response.line = this.line;
+            {response.line = this.line;}
         return response;
     }
 
     followUp(response: AIFeedback, request: AIRequest) {
-        let finalResponse: AIFeedback = {request: request, filename: response.filename, line: response.line, text: this.text}
+        let finalResponse: AIFeedback = {request: request, filename: response.filename, line: response.line, text: this.text};
         return finalResponse;
     }
 
@@ -64,7 +64,7 @@ class FakeCaller implements APICaller {
     }
 
     setText(text: string) {
-        if (text != null) {
+        if (text !== null) {
             this.text = text;
             return true;
         }
