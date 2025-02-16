@@ -27,7 +27,8 @@ After the user amends an issue in their codebase after running the Debug Command
 
 ## Requirements
 
-TBD
+### OpenAI API Key
+An OpenAI API Key is required to use this extension. The API Key can be entered in the extension settings.
 
 <!-- ## Known Issues -->
 

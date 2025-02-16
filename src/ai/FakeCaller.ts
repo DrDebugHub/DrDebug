@@ -17,7 +17,6 @@ export class FakeCaller implements APICaller {
         let response: AIFeedback = {request: request, text: ""};
 
         // TODO: implement this
-
         return new Promise(() => response);
     }
 
