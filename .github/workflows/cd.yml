@@ -20,6 +20,6 @@ jobs:
               env:
                 VSCE_PAT: ${{ secrets.VSCE_PAT }}
               run: |
-                vsce login <<< "$VSCE_PAT"
-                vsce publish 
+                vsce login SWEN-356-Debugger <<< "$VSCE_PAT"
+                vsce publish
               
