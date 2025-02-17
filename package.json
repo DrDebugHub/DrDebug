@@ -1,7 +1,8 @@
 {
-  "name": "debugger",
-  "displayName": "Debugger",
-  "description": "Debugging AI Assistant",
+  "name": "debugging-ai-assistant",
+  "displayName": "Debugging AI Assistant",
+  "description": "Debugging AI Assistant: An integrated debugging tool to streamline the programming process.",
+  "icon": "images/debug-logo-final.png",
   "version": "0.0.1",
   "engines": {
     "vscode": "^1.96.0"
@@ -9,13 +10,30 @@
   "categories": [
     "Other"
   ],
-  "activationEvents": [],
+  "activationEvents": [
+    "onStartupFinished"
+  ],
   "main": "./out/extension.js",
   "contributes": {
     "commands": [
       {
-        "command": "debugger.SendError",
+        "command": "debuggingAiAssistant.callAI",
+        "title": "Call AI"
+      },
+      {
+        "command": "debuggingAiAssistant.sendError",
         "title": "Send Error"
+      }
+    ],
+    "configuration": [
+      {
+        "title": "Debugging AI Assistant",
+        "properties": {
+          "debuggingAiAssistant.apiKey": {
+            "type": "string",
+            "description": "The API key used for OpenAI requests on behalf of the assistant."
+          }
+        }
       }
     ]
   },
@@ -28,14 +46,18 @@
     "test": "vscode-test"
   },
   "devDependencies": {
-    "@types/vscode": "^1.96.0",
     "@types/mocha": "^10.0.10",
     "@types/node": "20.x",
+    "@types/vscode": "^1.96.0",
     "@typescript-eslint/eslint-plugin": "^8.22.0",
     "@typescript-eslint/parser": "^8.22.0",
-    "eslint": "^9.19.0",
-    "typescript": "^5.7.3",
     "@vscode/test-cli": "^0.0.10",
-    "@vscode/test-electron": "^2.4.1"
+    "@vscode/test-electron": "^2.4.1",
+    "eslint": "^9.19.0",
+    "typescript": "^5.7.3"
+  },
+  "dependencies": {
+    "debugging-ai-assistant": "file:",
+    "openai": "^4.83.0"
   }
 }
