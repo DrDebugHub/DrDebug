@@ -7,7 +7,7 @@ on:
 
 jobs:
     deploy:
-        runs-on: windows-latest
+        runs-on: ubuntu-latest
         if: ${{ github.event.workflow_run.conclusion == 'success' }}
         steps:
             - uses: actions/checkout@v4
@@ -15,11 +15,9 @@ jobs:
               with:
                 node-version: '20.x'
             - run: npm ci
-            - run: npm install -g @vscode/vsce
-            - shell: bash
-              env:
-                VSCE_PAT: ${{ secrets.VSCE_PAT }}
-              run: |
-                vsce login SWEN-356-Debugger <<< "$VSCE_PAT"
-                vsce publish
+            - name: Publish to Visual Studio Marketplace
+              uses: HaaLeo/publish-vscode-extension@v1
+              with:
+                pat: ${{ secrets.VSCE_PAT }}
+                registryUrl: https://marketplace.visualstudio.com
               
