@@ -19,7 +19,7 @@ export function activate(context: vscode.ExtensionContext) {
 			const inline = new Inline(editor.document.uri);
 			inline.setDiagnostic("Test message", new vscode.Range(new vscode.Position(0, 0), new vscode.Position(0, 0)));
 		}
-	})
+	});
 
 	context.subscriptions.push(callAI);
 	context.subscriptions.push(inlineMessage);
