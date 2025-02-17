@@ -1,0 +1,25 @@
+name: CD
+
+on:
+    workflow_run:
+        workflows: [ "CI" ]
+        types: [ "completed" ]
+
+jobs:
+    deploy:
+        runs-on: windows-latest
+        if: ${{ github.event.workflow_run.conclusion == 'success' }}
+        steps:
+            - uses: actions/checkout@v4
+            - uses: actions/setup-node@v4
+              with:
+                node-version: '20.x'
+            - run: npm ci
+            - run: npm install -g @vscode/vsce
+            - shell: bash
+              env:
+                VSCE_PAT: ${{ secrets.VSCE_PAT }}
+              run: |
+                vsce login <<< "$VSCE_PAT"
+                vsce publish 
+              

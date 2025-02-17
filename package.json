@@ -4,6 +4,11 @@
   "description": "Debugging AI Assistant: An integrated debugging tool to streamline the programming process.",
   "icon": "images/debug-logo-final.png",
   "version": "0.0.1",
+  "publisher": "SWEN-356-Debugger",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/SWEN-356-Debugger/Debugger"
+  },
   "engines": {
     "vscode": "^1.96.0"
   },
