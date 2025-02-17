@@ -14,8 +14,8 @@
   "contributes": {
     "commands": [
       {
-        "command": "debugger.helloWorld",
-        "title": "Hello World"
+        "command": "debugger.SendError",
+        "title": "Send Error"
       }
     ]
   },
