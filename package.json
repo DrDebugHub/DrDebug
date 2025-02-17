@@ -17,8 +17,12 @@
   "contributes": {
     "commands": [
       {
-        "command": "debuggingAiAssistant.helloWorld",
-        "title": "Hello World"
+        "command": "debuggingAiAssistant.callAI",
+        "title": "Call AI"
+      },
+      {
+        "command": "debuggingAiAssistant.sendError",
+        "title": "Send Error"
       }
     ],
     "configuration": [
