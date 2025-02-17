@@ -30,7 +30,9 @@ export class InlineDiagnostic implements Inline {
         // Show expanded view
         for(let diagnostic of vscode.languages.getDiagnostics(this.file)) {
 			vscode.commands.executeCommand("editor.action.marker.next");
-			if(diagnostic.source === diagnosticName) break;
+			if(diagnostic.source === diagnosticName) {
+                break;
+            }
 		}
     }
 
