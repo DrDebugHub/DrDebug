@@ -1,6 +1,6 @@
 {
-  "name": "debugger",
-  "displayName": "Debugger",
+  "name": "debugging-ai-assistant",
+  "displayName": "Debugging AI Assistant",
   "description": "Debugging AI Assistant: An integrated debugging tool to streamline the programming process.",
   "icon": "images/debug-logo-final.png",
   "version": "0.0.1",
@@ -10,13 +10,26 @@
   "categories": [
     "Other"
   ],
-  "activationEvents": [],
+  "activationEvents": [
+    "onStartupFinished"
+  ],
   "main": "./out/extension.js",
   "contributes": {
     "commands": [
       {
-        "command": "debugger.helloWorld",
+        "command": "debuggingAiAssistant.helloWorld",
         "title": "Hello World"
+      }
+    ],
+    "configuration": [
+      {
+        "title": "Debugging AI Assistant",
+        "properties": {
+          "debuggingAiAssistant.apiKey": {
+            "type": "string",
+            "description": "The API key used for OpenAI requests on behalf of the assistant."
+          }
+        }
       }
     ]
   },
@@ -40,6 +53,7 @@
     "typescript": "^5.7.3"
   },
   "dependencies": {
-    "debugger": "file:"
+    "debugging-ai-assistant": "file:",
+    "openai": "^4.83.0"
   }
 }
