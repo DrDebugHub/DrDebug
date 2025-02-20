@@ -28,8 +28,21 @@
       {
         "command": "debuggingAiAssistant.sendError",
         "title": "Send Error"
+      },
+      {
+        "command": "debuggingAiAssistant.aiErrorButton",
+        "title": "AI Error Button",
+        "icon": "./images/debug-logo-final.png"
       }
     ],
+    "menus": {
+      "editor/title": [
+        {
+          "command": "debuggingAiAssistant.aiErrorButton",
+          "group": "navigation"
+        }
+      ]
+    },
     "configuration": [
       {
         "title": "Debugging AI Assistant",
