@@ -19,6 +19,13 @@ export function activate(context: vscode.ExtensionContext) {
 		inline.show();
 	});
 
+	vscode.window.onDidStartTerminalShellExecution(async (e) => {
+		const stream = e.execution.read();
+		for await (const data of stream) {
+			console.log(data);
+		}
+	});
+
 	context.subscriptions.push(callAI);
 	context.subscriptions.push(sendError);
 }
