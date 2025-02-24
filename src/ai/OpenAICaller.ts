@@ -19,6 +19,26 @@ export class OpenAICaller implements APICaller {
             return Promise.reject();
         }
 
+        // TODO: send request to see if theres an error
+        settings.openai.chat.completions.create({
+            model: "gpt-4o-mini",
+            messages: [
+                {
+                    role: "system",
+                    content:
+                        `
+                        You are a helpful code debugging assistant that is knowledgable on runtime and compile-time errors.
+                        
+                        The user will ask for assistance by supplying a JSON object with contextual information. The format of this request is:
+                        {
+                            prompt: string; // This is the message of assistance sent by the user.
+                            terminalOutput: string // This is the latest terminal output before a possible error
+                        }
+                        `
+                }
+            ]
+        });
+
         // TODO: implement this
         return settings.openai.chat.completions.create({
             model: "gpt-4o-mini",
@@ -47,7 +67,7 @@ export class OpenAICaller implements APICaller {
                     content: 
                         `
                         {
-                            "prompt": "${request.prompt}"
+                            "prompt": ""
                         }
                         `
                 }
@@ -68,8 +88,8 @@ export class OpenAICaller implements APICaller {
     }
 
     followUp(response: AIFeedback): Promise<AIFeedback> {
-        let newRequest: AIRequest = { prompt: "Test" };
-        let finalResponse: AIFeedback = {request: newRequest, filename: response.filename, line: response.line, text: ""};
+        let newRequest: AIRequest = {};
+        let finalResponse: AIFeedback = {request: newRequest, fileName: response.fileName, line: response.line, text: ""};
 
         // TODO: implement this
 

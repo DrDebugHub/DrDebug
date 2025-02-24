@@ -21,8 +21,8 @@ export class FakeCaller implements APICaller {
     }
 
     followUp(response: AIFeedback): Promise<AIFeedback> {
-        let newRequest: AIRequest = { prompt: "Test" };
-        let finalResponse: AIFeedback = {request: newRequest, filename: response.filename, line: response.line, text: ""};
+        let newRequest: AIRequest = {};
+        let finalResponse: AIFeedback = {request: newRequest, fileName: response.fileName, line: response.line, text: ""};
 
         // TODO: implement this
 
