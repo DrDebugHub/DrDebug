@@ -5,7 +5,7 @@ import { LinkedList } from "linked-list-typescript";
 const MAX_NUMBER_LINES = 10;
 let terminal: Terminal;
 
-export function initTerminal() {
+export function initTerminal(): void {
     terminal = { lines: new LinkedList<string>() };
 
     vscode.window.onDidStartTerminalShellExecution(async (e) => {
@@ -17,4 +17,8 @@ export function initTerminal() {
             }
 		}
 	});
+}
+
+export function getTerminalOutput(): string {
+    return terminal.lines.toArray().join("");
 }

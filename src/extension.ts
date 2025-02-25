@@ -1,11 +1,16 @@
 import * as vscode from "vscode";
 import { initSettings } from "./settings";
 import { InlineDiagnostic } from "./extension/InlineDiagnostic";
-import { initTerminal } from "./terminal";
+import { initTerminal, getTerminalOutput } from "./terminal";
+import { OpenAICaller } from "./ai/OpenAICaller";
 
 export function activate(context: vscode.ExtensionContext) {
 	initSettings();
 	initTerminal();
+
+	const askAI = vscode.commands.registerCommand("debuggingAiAssistant.askAI", async () => {
+		vscode.window.showInformationMessage(JSON.stringify(await new OpenAICaller().sendRequest({ terminalOutput: getTerminalOutput() })), { modal: true });
+	});
 
 	const sendError = vscode.commands.registerCommand("debuggingAiAssistant.sendError", () => {
 		const file: vscode.Uri = vscode.Uri.joinPath(vscode.workspace.workspaceFolders![0].uri, "test.js");
@@ -13,6 +18,7 @@ export function activate(context: vscode.ExtensionContext) {
 		inline.show();
 	});
 
+	context.subscriptions.push(askAI);
 	context.subscriptions.push(sendError);
 }
 

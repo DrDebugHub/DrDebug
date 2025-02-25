@@ -1,5 +1,6 @@
+import { ProblemFile } from "./ProblemFile";
+
 export interface AIRequest {
     terminalOutput?: string;
-    fileName?: string;
-    fileContent?: string;
+    problemFiles?: ProblemFile[]
 }
