@@ -9,7 +9,10 @@ export function activate(context: vscode.ExtensionContext) {
 	initTerminal();
 
 	const askAI = vscode.commands.registerCommand("debuggingAiAssistant.askAI", async () => {
-		vscode.window.showInformationMessage(JSON.stringify(await new OpenAICaller().sendRequest({ terminalOutput: getTerminalOutput() })), { modal: true });
+		let response = (await new OpenAICaller().sendRequest({ terminalOutput: getTerminalOutput() }))
+		if (response !== undefined && response.text !== undefined) {
+			vscode.window.showInformationMessage(response.text, { modal: true });
+		}
 	});
 
 	const sendError = vscode.commands.registerCommand("debuggingAiAssistant.sendError", () => {

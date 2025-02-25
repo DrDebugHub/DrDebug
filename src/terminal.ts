@@ -1,4 +1,4 @@
-import vscode from "vscode"
+import vscode from "vscode";
 import { Terminal } from "./types/Terminal";
 import { LinkedList } from "linked-list-typescript";
 

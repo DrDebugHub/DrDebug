@@ -1,4 +1,4 @@
-import vscode from "vscode";
+import vscode, { ProgressLocation } from "vscode";
 import { AIRequest } from "../types/AIRequest";
 import { AIFeedback } from "../types/AIFeedback";
 import { APICaller } from "../types/APICaller";
@@ -10,7 +10,7 @@ export class OpenAICaller implements APICaller {
     isConnected(): boolean {
         return !!settings.openai.apiKey;
     }
-
+    
     async sendRequest(request: AIRequest): Promise<AIFeedback> {
         if(!this.isConnected()) {
             const answer = await vscode.window.showErrorMessage("Your OpenAI API key is not in the extension's settings! Please set it before continuing.", "Go To Settings");
@@ -19,8 +19,26 @@ export class OpenAICaller implements APICaller {
             }
             return Promise.reject();
         }
+        var progressMessage: string = "checking for error";
+        var done = false;
+        void vscode.window.withProgress({
+            location: ProgressLocation.Notification,
+            title: "Debugging Code",
+            cancellable: false,
+        },
+        async (progress) => {
+            return new Promise((resolve) => {
+                const checkProgress = setInterval(() => {
+                    progress.report({ message: progressMessage });
+    
+                    if (done) {
+                        clearInterval(checkProgress);
+                        resolve("Completed!");
+                    }
+                }, 500);
+            });
+        },);
 
-        // TODO: send request to see if theres an error
         const errorFeedback: AIFeedback = await settings.openai.chat.completions.create({
             model: "gpt-4o-mini",
             messages: [
@@ -73,9 +91,12 @@ export class OpenAICaller implements APICaller {
         });
 
         if(errorFeedback.problemFiles.length === 0) {
+            done = true;
             await vscode.window.showErrorMessage("An error could not be found in the terminal. Please try again.");
             return Promise.reject();
         }
+        
+        progressMessage = "error found, debugging...";
 
         const problemFilesUris: vscode.Uri[] = [];
         for(const problemFile of errorFeedback.problemFiles) {
@@ -84,7 +105,6 @@ export class OpenAICaller implements APICaller {
 
         const problemFiles: ProblemFile[] = [];
         for(const problemFile of problemFilesUris) {
-            vscode.workspace.findFiles
             await vscode.workspace.fs.readFile(problemFile)
                 .then(data => Buffer.from(data).toString())
                 .then(fileContent => {
@@ -135,6 +155,7 @@ export class OpenAICaller implements APICaller {
             ]
         }).then(response => {
             const json = JSON.parse(response.choices[0].message.content!);
+            done = true;
             let feedback: AIFeedback = {
                 request: request,
                 problemFiles: json.problemFiles,
@@ -142,6 +163,7 @@ export class OpenAICaller implements APICaller {
             };
             return feedback;
         }, async(_) => {
+            done = true;
             const answer = await vscode.window.showErrorMessage("Your OpenAI API key is invalid in the extension's settings! Please correct it before continuing.", "Go To Settings");
             if(answer === "Go To Settings") {
                 vscode.env.openExternal(vscode.Uri.parse("vscode://settings/debuggingAiAssistant.apiKey"));
