@@ -15,7 +15,7 @@ export class OpenAICaller implements APICaller {
         if(!this.isConnected()) {
             const answer = await vscode.window.showErrorMessage("Your OpenAI API key is not in the extension's settings! Please set it before continuing.", "Go To Settings");
             if(answer === "Go To Settings") {
-                vscode.env.openExternal(vscode.Uri.parse("vscode://settings/debuggingAiAssistant.apiKey"));
+                vscode.env.openExternal(vscode.Uri.parse("vscode://settings/drDebug.apiKey"));
             }
             return Promise.reject();
         }
@@ -85,7 +85,7 @@ export class OpenAICaller implements APICaller {
         }, async(_) => {
             const answer = await vscode.window.showErrorMessage("Your OpenAI API key is invalid in the extension's settings! Please correct it before continuing.", "Go To Settings");
             if(answer === "Go To Settings") {
-                vscode.env.openExternal(vscode.Uri.parse("vscode://settings/debuggingAiAssistant.apiKey"));
+                vscode.env.openExternal(vscode.Uri.parse("vscode://settings/drDebug.apiKey"));
             }
             return Promise.reject();
         });
@@ -166,7 +166,7 @@ export class OpenAICaller implements APICaller {
             done = true;
             const answer = await vscode.window.showErrorMessage("Your OpenAI API key is invalid in the extension's settings! Please correct it before continuing.", "Go To Settings");
             if(answer === "Go To Settings") {
-                vscode.env.openExternal(vscode.Uri.parse("vscode://settings/debuggingAiAssistant.apiKey"));
+                vscode.env.openExternal(vscode.Uri.parse("vscode://settings/drDebug.apiKey"));
             }
             return Promise.reject();
         });

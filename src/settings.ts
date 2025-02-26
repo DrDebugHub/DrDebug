@@ -6,12 +6,12 @@ export let settings: Settings;
 
 export function initSettings(): void {
     settings = {
-        openai: new OpenAI({ apiKey: vscode.workspace.getConfiguration("debuggingAiAssistant").get("apiKey")! })
+        openai: new OpenAI({ apiKey: vscode.workspace.getConfiguration("drDebug").get("apiKey")! })
     };
 
     vscode.workspace.onDidChangeConfiguration(event => {
-        if(event.affectsConfiguration("debuggingAiAssistant.apiKey")) {
-            settings.openai.apiKey = vscode.workspace.getConfiguration("debuggingAiAssistant").get("apiKey")!;
+        if(event.affectsConfiguration("drDebug.apiKey")) {
+            settings.openai.apiKey = vscode.workspace.getConfiguration("drDebug").get("apiKey")!;
         }
     });
 } 

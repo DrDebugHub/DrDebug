@@ -1,7 +1,7 @@
 {
   "name": "dr-debug",
-  "displayName": "Debugging AI Assistant",
-  "description": "Debugging AI Assistant: An integrated debugging tool to streamline the programming process.",
+  "displayName": "DrDebug",
+  "description": "DrDebug: An integrated debugging tool to streamline the programming process.",
   "icon": "images/debug-logo-final.png",
   "version": "0.0.2",
   "publisher": "SWEN-356-Debugger",
@@ -22,28 +22,28 @@
   "contributes": {
     "commands": [
       {
-        "command": "debuggingAiAssistant.askAI",
+        "command": "drDebug.askAI",
         "title": "Ask AI",
         "icon": "./images/debug-logo-final.png"
       },
       {
-        "command": "debuggingAiAssistant.sendError",
+        "command": "drDebug.sendError",
         "title": "Send Error"
       }
     ],
     "menus": {
       "editor/title": [
         {
-          "command": "debuggingAiAssistant.askAI",
+          "command": "drDebug.askAI",
           "group": "navigation"
         }
       ]
     },
     "configuration": [
       {
-        "title": "Debugging AI Assistant",
+        "title": "DrDebug",
         "properties": {
-          "debuggingAiAssistant.apiKey": {
+          "drDebug.apiKey": {
             "type": "string",
             "description": "The API key used for OpenAI requests on behalf of the assistant."
           }
