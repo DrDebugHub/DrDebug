@@ -1,6 +1,6 @@
-# Debugging AI Assistant
+# DrDebug
 
-Debugging AI Assistant is an integrated tool that can intelligently suggest fixes and assist with debugging code. It supports the software developing workflow by suggesting fixes for existing errors and pointing out potential issues and fixes that lead to various compile-time or runtime errors.
+DrDebug is an integrated tool that can intelligently suggest fixes and assist with debugging code. It supports the software developing workflow by suggesting fixes for existing errors and pointing out potential issues and fixes that lead to various compile-time or runtime errors.
 
 ## Features
 

@@ -1,5 +1,5 @@
 {
-  "name": "debugging-ai-assistant",
+  "name": "dr-debug",
   "displayName": "Debugging AI Assistant",
   "description": "Debugging AI Assistant: An integrated debugging tool to streamline the programming process.",
   "icon": "images/debug-logo-final.png",
@@ -71,7 +71,7 @@
     "typescript": "^5.7.3"
   },
   "dependencies": {
-    "debugging-ai-assistant": "file:",
+    "dr-debug": "file:",
     "fs": "^0.0.1-security",
     "linked-list-typescript": "^1.0.15",
     "openai": "^4.83.0"
