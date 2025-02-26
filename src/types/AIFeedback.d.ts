@@ -1,8 +1,8 @@
 import { AIRequest } from "./AIRequest";
+import { ProblemFile } from "./ProblemFile";
 
 export interface AIFeedback {
     request: AIRequest;
-    filename?: String;
-    line?: number;
-    text: string;
+    problemFiles: ProblemFile[];
+    text?: string;
 }

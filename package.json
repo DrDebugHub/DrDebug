@@ -22,23 +22,19 @@
   "contributes": {
     "commands": [
       {
-        "command": "debuggingAiAssistant.callAI",
-        "title": "Call AI"
+        "command": "debuggingAiAssistant.askAI",
+        "title": "Ask AI",
+        "icon": "./images/debug-logo-final.png"
       },
       {
         "command": "debuggingAiAssistant.sendError",
         "title": "Send Error"
-      },
-      {
-        "command": "debuggingAiAssistant.aiErrorButton",
-        "title": "AI Error Button",
-        "icon": "./images/debug-logo-final.png"
       }
     ],
     "menus": {
       "editor/title": [
         {
-          "command": "debuggingAiAssistant.aiErrorButton",
+          "command": "debuggingAiAssistant.askAI",
           "group": "navigation"
         }
       ]
@@ -76,6 +72,8 @@
   },
   "dependencies": {
     "debugging-ai-assistant": "file:",
+    "fs": "^0.0.1-security",
+    "linked-list-typescript": "^1.0.15",
     "openai": "^4.83.0"
   }
 }

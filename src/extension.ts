@@ -1,16 +1,18 @@
 import * as vscode from "vscode";
-import { OpenAICaller } from "./ai/OpenAICaller";
 import { initSettings } from "./settings";
 import { InlineDiagnostic } from "./extension/InlineDiagnostic";
+import { initTerminal, getTerminalOutput } from "./terminal";
+import { OpenAICaller } from "./ai/OpenAICaller";
 
 export function activate(context: vscode.ExtensionContext) {
 	initSettings();
+	initTerminal();
 
-	const callAI = vscode.commands.registerCommand("debuggingAiAssistant.callAI", () => {
-		let caller: OpenAICaller = new OpenAICaller();
-		caller.sendRequest({ prompt: "Why is print(123) not working in my file, test.js?" }).then(response => {
-			vscode.window.showInformationMessage(`Response: ${response.text}`);
-		});
+	const askAI = vscode.commands.registerCommand("debuggingAiAssistant.askAI", async () => {
+		let response = (await new OpenAICaller().sendRequest({ terminalOutput: getTerminalOutput() }))
+		if (response !== undefined && response.text !== undefined) {
+			vscode.window.showInformationMessage(response.text, { modal: true });
+		}
 	});
 
 	const sendError = vscode.commands.registerCommand("debuggingAiAssistant.sendError", () => {
@@ -19,7 +21,7 @@ export function activate(context: vscode.ExtensionContext) {
 		inline.show();
 	});
 
-	context.subscriptions.push(callAI);
+	context.subscriptions.push(askAI);
 	context.subscriptions.push(sendError);
 }
 

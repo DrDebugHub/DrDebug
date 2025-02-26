@@ -4,7 +4,7 @@ import OpenAI from "openai";
 
 export let settings: Settings;
 
-export function initSettings() {
+export function initSettings(): void {
     settings = {
         openai: new OpenAI({ apiKey: vscode.workspace.getConfiguration("debuggingAiAssistant").get("apiKey")! })
     };
