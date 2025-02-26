@@ -36,4 +36,10 @@ An OpenAI API Key is required to use this extension. The API Key can be entered 
 ## Release Notes
 
 ### v0.0.1
-Initial extension release
+Initial release
+
+### v0.0.2
+Debugger reads output in terminal and gives feedback if an error is found.
+
+### Future Releases
+Future features include inline feedback, follow-up button, and a keyboard shortcut.
