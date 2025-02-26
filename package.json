@@ -3,7 +3,7 @@
   "displayName": "Debugging AI Assistant",
   "description": "Debugging AI Assistant: An integrated debugging tool to streamline the programming process.",
   "icon": "images/debug-logo-final.png",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "publisher": "SWEN-356-Debugger",
   "repository": {
     "type": "git",
