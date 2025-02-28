@@ -83,6 +83,7 @@ export class OpenAICaller implements APICaller {
             };
             return feedback;
         }, async(_) => {
+            done = true;
             const answer = await vscode.window.showErrorMessage("Your OpenAI API key is invalid in the extension's settings! Please correct it before continuing.", "Go To Settings");
             if(answer === "Go To Settings") {
                 vscode.env.openExternal(vscode.Uri.parse("vscode://settings/drDebug.apiKey"));
@@ -92,7 +93,7 @@ export class OpenAICaller implements APICaller {
 
         if(errorFeedback.problemFiles.length === 0) {
             done = true;
-            await vscode.window.showErrorMessage("An error could not be found in the terminal. Please try again.");
+            await vscode.window.showWarningMessage("An error could not be found in the terminal. Please try again.");
             return Promise.reject();
         }
         
