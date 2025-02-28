@@ -17,6 +17,8 @@ export class InlineDiagnostic implements Inline {
     }
 
     public async show(): Promise<void> {
+        this.cleanMessage();
+
         // Create diagnostic
         const diagnostic = new vscode.Diagnostic(this.range, this.message, vscode.DiagnosticSeverity.Error);
         diagnostic.source = diagnosticName;
@@ -34,6 +36,21 @@ export class InlineDiagnostic implements Inline {
                 break;
             }
 		}
+    }
+
+    private cleanMessage(): void {
+        let result = "";
+        let lineLength = 0;
+        for(const word of this.message.split(" ")) {
+            if(lineLength + word.length <= 80) {
+                result += word + " ";
+                lineLength += word.length + 1;
+            } else {
+                result += "\n" + word + " ";
+                lineLength = word.length + 1;
+            }
+        }
+        this.message = result;
     }
 
 }

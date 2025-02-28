@@ -75,8 +75,6 @@ export class OpenAICaller implements APICaller {
                 }
             ]
         }).then(response => {
-            console.log(response.choices[0].message.content!);
-
             let feedback: AIFeedback = {
                 request: request,
                 problemFiles: JSON.parse(response.choices[0].message.content!).problemFiles
