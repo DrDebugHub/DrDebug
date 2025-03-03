@@ -8,16 +8,9 @@ export function activate(context: vscode.ExtensionContext) {
 	initSettings();
 	initTerminal();
 
-	// const askAI = vscode.commands.registerCommand("drDebug.askAI", async () => {
-	// 	let response = (await new OpenAICaller().sendRequest({ terminalOutput: getTerminalOutput() }))
-	// 	if (response !== undefined && response.text !== undefined) {
-	// 		vscode.window.showInformationMessage(response.text, { modal: true });
-	// 	}
-	// });
-
 	const askAI = vscode.commands.registerCommand("drDebug.askAI", async () => {
 		const options = [
-			"Ask AI",
+			"Debug",
 			"Follow Up"
 		];
 
@@ -30,9 +23,16 @@ export function activate(context: vscode.ExtensionContext) {
 			return;
 		}
 
-		let response = (await new OpenAICaller().sendRequest({ terminalOutput: getTerminalOutput() }))
-		if (response !== undefined && response.text !== undefined) {
-			vscode.window.showInformationMessage(response.text, { modal: true });
+		if (selectedOption == "Debug") {
+			let response = (await new OpenAICaller().sendRequest({ terminalOutput: getTerminalOutput() }))
+			if (response !== undefined && response.text !== undefined) {
+				vscode.window.showInformationMessage(response.text, { modal: true });
+			}
+		}
+
+		if (selectedOption == "Follow up") {
+			// figure out how to get id of previous response (completion_id)
+			// await new OpenAICaller().followUp(previous response)
 		}
 	});
 

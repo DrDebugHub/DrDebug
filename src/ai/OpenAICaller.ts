@@ -41,6 +41,7 @@ export class OpenAICaller implements APICaller {
 
         const errorFeedback: AIFeedback = await settings.openai.chat.completions.create({
             model: "gpt-4o-mini",
+            store: true, // store for follow up
             messages: [
                 {
                     role: "system",
@@ -115,6 +116,7 @@ export class OpenAICaller implements APICaller {
 
         return settings.openai.chat.completions.create({
             model: "gpt-4o-mini",
+            store: true, // store for follow up
             messages: [
                 {
                     role: "system",
@@ -173,11 +175,12 @@ export class OpenAICaller implements APICaller {
         });
     }
 
-    followUp(response: AIFeedback): Promise<AIFeedback> {
+    async followUp(response: AIFeedback): Promise<AIFeedback> {
         let newRequest: AIRequest = {};
         let finalResponse: AIFeedback = {request: newRequest, problemFiles: [] };
 
         // TODO: implement this
+        // given a previous response, follow up (read terminal again) to see if the error has been fixed
 
         return new Promise(() => finalResponse);
     }
