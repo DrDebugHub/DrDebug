@@ -8,7 +8,28 @@ export function activate(context: vscode.ExtensionContext) {
 	initSettings();
 	initTerminal();
 
+	// const askAI = vscode.commands.registerCommand("drDebug.askAI", async () => {
+	// 	let response = (await new OpenAICaller().sendRequest({ terminalOutput: getTerminalOutput() }))
+	// 	if (response !== undefined && response.text !== undefined) {
+	// 		vscode.window.showInformationMessage(response.text, { modal: true });
+	// 	}
+	// });
+
 	const askAI = vscode.commands.registerCommand("drDebug.askAI", async () => {
+		const options = [
+			"Ask AI",
+			"Follow Up"
+		];
+
+		const selectedOption = await vscode.window.showQuickPick(options, {
+			placeHolder: "Debug or follow up",
+			canPickMany: false
+		});
+
+		if (!selectedOption) {
+			return;
+		}
+
 		let response = (await new OpenAICaller().sendRequest({ terminalOutput: getTerminalOutput() }))
 		if (response !== undefined && response.text !== undefined) {
 			vscode.window.showInformationMessage(response.text, { modal: true });
