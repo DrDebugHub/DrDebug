@@ -9,10 +9,31 @@ export function activate(context: vscode.ExtensionContext) {
 	initTerminal();
 
 	const askAI = vscode.commands.registerCommand("drDebug.askAI", async () => {
-		new OpenAICaller().sendRequest({ terminalOutput: getTerminalOutput() }).then(response => {
-			if (response.text !== undefined)
+		const options = [
+			"Debug",
+			"Follow Up"
+		];
+
+		const selectedOption = await vscode.window.showQuickPick(options, {
+			placeHolder: "Debug or follow up",
+			canPickMany: false
+		});
+
+		if (!selectedOption) {
+			return;
+		}
+
+		if (selectedOption == "Debug") {
+			let response = (await new OpenAICaller().sendRequest({ terminalOutput: getTerminalOutput() }))
+			if (response !== undefined && response.text !== undefined) {
 				vscode.window.showInformationMessage(response.text, { modal: true });
-		})
+			}
+		}
+
+		if (selectedOption == "Follow up") {
+			// figure out how to get id of previous response (completion_id)
+			// await new OpenAICaller().followUp(previous response)
+		}
 	});
 
 	const sendError = vscode.commands.registerCommand("drDebug.sendError", () => {
