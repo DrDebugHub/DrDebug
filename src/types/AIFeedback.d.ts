@@ -5,4 +5,5 @@ export interface AIFeedback {
     request: AIRequest;
     problemFiles: ProblemFile[];
     text?: string;
+    fixed?: boolean;
 }

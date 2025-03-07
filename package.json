@@ -7,7 +7,7 @@
   "publisher": "SWEN-356-Debugger",
   "repository": {
     "type": "git",
-    "url": "https://github.com/SWEN-356-Debugger/Debugger"
+    "url": "https://github.com/DrDebugHub/DrDebug"
   },
   "engines": {
     "vscode": "^1.96.0"
@@ -25,10 +25,6 @@
         "command": "drDebug.askAI",
         "title": "Ask AI",
         "icon": "./images/debug-logo-final.png"
-      },
-      {
-        "command": "drDebug.sendError",
-        "title": "Send Error"
       }
     ],
     "menus": {
