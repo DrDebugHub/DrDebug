@@ -13,14 +13,14 @@ export class OpenAICaller implements APICaller {
     }
 
     /**
-     *  Handles when an error is found when making API calls.
+     * Handles when an error is found when making API calls.
      * Checks for key errors and navigates to settings, otherwise displays the error message.
      * @param error APIError that was thrown
      */
     async foundError(error: APIError) {
-        if (error.status == 401) {
+        if(error.status == 401) {
             var answer;
-            if (error.code === 'invalid_api_key') {
+            if(error.code === 'invalid_api_key') {
                 answer = await vscode.window.showErrorMessage("Your OpenAI API key is incorrect. Please correct it in settings before continuing.", "Go To Settings");
             } else {
                 answer = await vscode.window.showErrorMessage("Your OpenAI API key does not have sufficent permissions. Please update the key in settings before continuing.", "Go To Settings");
@@ -49,22 +49,24 @@ export class OpenAICaller implements APICaller {
         }
         var progressMessage: string = "Checking For Error";
         var done = false;
-        void vscode.window.withProgress({
-            location: ProgressLocation.Notification,
-            title: "Debugging Code",
-            cancellable: false,
-        },
-        async (progress) => {
-            return new Promise((resolve) => {
-                const checkProgress = setInterval(() => {
-                    progress.report({ message: progressMessage });
-                    if (done) {
-                        clearInterval(checkProgress);
-                        resolve("Completed!");
-                    }
-                }, 500);
-            });
-        },);
+        void vscode.window.withProgress(
+            {
+                location: ProgressLocation.Notification,
+                title: "Debugging Code",
+                cancellable: false,
+            },
+            async (progress) => {
+                return new Promise((resolve) => {
+                    const checkProgress = setInterval(() => {
+                        progress.report({ message: progressMessage });
+                        if (done) {
+                            clearInterval(checkProgress);
+                            resolve("Completed!");
+                        }
+                    }, 500);
+                });
+            }
+        );
 
         const errorFeedback: AIFeedback = await settings.openai.chat.completions.create({
             model: "gpt-4o-mini",
@@ -113,7 +115,7 @@ export class OpenAICaller implements APICaller {
             return Promise.reject();
         });
 
-        if (done) {
+        if(done) {
             return Promise.reject();
         }
 
@@ -184,12 +186,11 @@ export class OpenAICaller implements APICaller {
         }).then(response => {
             const json = JSON.parse(response.choices[0].message.content!);
             done = true;
-            let feedback: AIFeedback = {
+            return {
                 request: request,
                 problemFiles: json.problemFiles,
                 text: json.text
             };
-            return feedback;
         }, async(error) => {
             done = true;
             await this.foundError(error);
@@ -215,23 +216,25 @@ export class OpenAICaller implements APICaller {
         // Create Progress Bar
         var progressMessage: string = "Retrieving Updated Files";
         var done = false;
-        void vscode.window.withProgress({
-            location: ProgressLocation.Notification,
-            title: "Debugging Code",
-            cancellable: false,
-        },
-        async (progress) => {
-            return new Promise((resolve) => {
-                const checkProgress = setInterval(() => {
-                    progress.report({ message: progressMessage });
-    
-                    if (done) {
-                        clearInterval(checkProgress);
-                        resolve("Completed!");
-                    }
-                }, 500);
-            });
-        },);
+        void vscode.window.withProgress(
+            {
+                location: ProgressLocation.Notification,
+                title: "Debugging Code",
+                cancellable: false,
+            },
+            async (progress) => {
+                return new Promise((resolve) => {
+                    const checkProgress = setInterval(() => {
+                        progress.report({ message: progressMessage });
+        
+                        if (done) {
+                            clearInterval(checkProgress);
+                            resolve("Completed!");
+                        }
+                    }, 500);
+                });
+            }
+        );
 
         // Get list of the new file contents from the old list of files
         const problemFiles: ProblemFile[] = [];
@@ -296,12 +299,11 @@ export class OpenAICaller implements APICaller {
             // Sucessfully responded, return its response
             const json = JSON.parse(response.choices[0].message.content!);
             done = true;
-            let newFeedback: AIFeedback = {
+            return {
                 request: feedback.request,
                 problemFiles: json.problemFiles,
                 text: json.text
             };
-            return newFeedback;
         }, async(error) => {
             // Failed to respond, likely caused by an invalid key
             done = true;
