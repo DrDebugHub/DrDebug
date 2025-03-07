@@ -11,6 +11,7 @@ export function activate(context: vscode.ExtensionContext) {
 	initTerminal();
 
 	let lastResponse: AIFeedback | undefined;
+	let lastInline: InlineDiagnostic | undefined;
 
 	const askAI = vscode.commands.registerCommand("drDebug.askAI", async () => {
 		const options = [
@@ -35,6 +36,7 @@ export function activate(context: vscode.ExtensionContext) {
 						response.text);
 					inline.show();
 					lastResponse = response;
+					lastInline = inline;
 				} else {
 					vscode.window.showErrorMessage("Failed to debug your code.");
 				}
@@ -47,7 +49,21 @@ export function activate(context: vscode.ExtensionContext) {
 
 			new OpenAICaller().followUp(lastResponse).then(followUpResponse => {
 				if(followUpResponse !== undefined && followUpResponse.text !== undefined) {
-					vscode.window.showInformationMessage(followUpResponse.text, { modal: true });
+					if (followUpResponse.fixed !== undefined && followUpResponse.fixed) {
+						vscode.window.showInformationMessage(followUpResponse.text, { modal: true });
+						lastInline?.hide();
+					}
+					else {
+						const problemFile: ProblemFile = followUpResponse.problemFiles[0];
+						const inline: InlineDiagnostic = new InlineDiagnostic(
+							vscode.Uri.file(problemFile.fileName), 
+							new vscode.Range(
+								new vscode.Position(problemFile.line! - 1, 0), 
+								new vscode.Position(problemFile.line! - 1, 0)), 
+							followUpResponse.text);
+						inline.show();
+						lastInline = inline;
+					}
 					lastResponse = followUpResponse;
 				} else {
 					vscode.window.showErrorMessage("Failed to get a follow-up response.");

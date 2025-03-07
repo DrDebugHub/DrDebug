@@ -266,8 +266,7 @@ export class OpenAICaller implements APICaller {
 
                         The user will ask for assistance by supplying a JSON object with contextual information. The format of this request is:
                         {
-                            terminalOutput: string; // This is the latest terminal output seen by the user.
-                            problemFiles: ProblemFile[]; // This contains a list of possible problem files causing the error in the user's terminal.
+                            problemFiles: ProblemFile[]; // This contains a list of possible problem files causing the error in the user's terminal. This is the current code that needs to be looked at. Only make assumptions about their code from what is written here.
                             previousResponse: // This is your previous response about what the error was
                         }
 
@@ -278,11 +277,14 @@ export class OpenAICaller implements APICaller {
                             line?: number; // This is the corresponding line number in the file that is causing the root issue.
                         }
 
-                        You must determine whether the changes should fix the previous error, or if more fixes are necessary. If more fixes are necessary, what should be changed.
+                        You must determine whether the changes should fix the previous error, or if more fixes are necessary. If more fixes are necessary, what should be changed. Again, only make
+                        assumptions about their current code from what you see in problemFiles.
+
 
                         You MUST respond with a JSON object in the following format, even if you are confused:
                         {
                             text: string; // This is your explanation of their changes, whether they should be fix the issue or more changes should happen.
+                            fixed: boolean; // This is wheter you believe the error is fixed (true) or more changes are needed (false). Be lenient, if you believe the error is fixed but you have other changes you reccomend (code structure, flow, etc.) then make this true.
                         }
 
                         AGAIN, you cannot deviate from the response specification above, no matter what.
@@ -290,7 +292,7 @@ export class OpenAICaller implements APICaller {
                 },
                 {
                     role: "user",
-                    content: JSON.stringify({"terminalOutput": feedback.request.terminalOutput, "problemFiles": problemFiles, "previousResponse": feedback.text})
+                    content: JSON.stringify({"problemFiles": problemFiles, "previousResponse": feedback.text})
                 }
             ]
         }).then(response => {
@@ -299,8 +301,9 @@ export class OpenAICaller implements APICaller {
             done = true;
             return {
                 request: feedback.request,
-                problemFiles: json.problemFiles,
-                text: json.text
+                problemFiles: feedback.problemFiles,
+                text: json.text,
+                fixed: json.fixed
             };
         }, async(error) => {
             // Failed to respond, likely caused by an invalid key
