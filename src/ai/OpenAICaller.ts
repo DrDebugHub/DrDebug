@@ -18,7 +18,7 @@ export class OpenAICaller implements APICaller {
      * @param error APIError that was thrown
      */
     async foundError(error: APIError) {
-        if(error.status == 401) {
+        if(error.status === 401) {
             var answer;
             if(error.code === 'invalid_api_key') {
                 answer = await vscode.window.showErrorMessage("Your OpenAI API key is incorrect. Please correct it in settings before continuing.", "Go To Settings");
@@ -238,10 +238,8 @@ export class OpenAICaller implements APICaller {
 
         // Get list of the new file contents from the old list of files
         const problemFiles: ProblemFile[] = [];
-        if (feedback.request.problemFiles != undefined) {
+        if (feedback.request.problemFiles !== undefined) {
             for(const problemFile of feedback.request.problemFiles) {
-                problemFile.fileName
-                
                 await vscode.workspace.fs.readFile(vscode.Uri.file(problemFile.fileName))
                     .then(data => Buffer.from(data).toString())
                     .then(fileContent => {

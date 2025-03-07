@@ -23,12 +23,10 @@ export function activate(context: vscode.ExtensionContext) {
 			canPickMany: false
 		});
 
-		if(!selectedOption) return;
-
-		if(selectedOption == "Debug") {
+		if(selectedOption === "Debug") {
 			let response = await new OpenAICaller().sendRequest({ terminalOutput: getTerminalOutput() });
 		 	if(response !== undefined && response.problemFiles && response.text !== undefined) {
-				const problemFile: ProblemFile = response.problemFiles[0]
+				const problemFile: ProblemFile = response.problemFiles[0];
 				const inline: InlineDiagnostic = new InlineDiagnostic(
 					vscode.Uri.file(problemFile.fileName), 
 					new vscode.Range(
@@ -40,9 +38,7 @@ export function activate(context: vscode.ExtensionContext) {
 			} else {
 				vscode.window.showErrorMessage("Failed to debug your code.");
 			}
-		}
-
-		if(selectedOption == "Follow Up") {
+		} else if(selectedOption === "Follow Up") {
 			if(!lastResponse) {
 				vscode.window.showInformationMessage("No previous debug session found. Run 'Debug' first.");
 				return;
