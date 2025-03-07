@@ -4,6 +4,7 @@ import { InlineDiagnostic } from "./extension/InlineDiagnostic";
 import { initTerminal, getTerminalOutput } from "./terminal";
 import { OpenAICaller } from "./ai/OpenAICaller";
 import { AIFeedback } from "./types/AIFeedback";
+import { ProblemFile } from "./types/ProblemFile";
 
 export function activate(context: vscode.ExtensionContext) {
 	initSettings();
@@ -27,11 +28,16 @@ export function activate(context: vscode.ExtensionContext) {
 		}
 
 		if (selectedOption == "Debug") {
-			let response = (await new OpenAICaller().sendRequest({ terminalOutput: getTerminalOutput() }))
-			if (response !== undefined && response.text !== undefined) {
-				vscode.window.showInformationMessage(response.text, { modal: true });
-				lastResponse = response; // store response for follow-up
-			}
+			let response = await new OpenAICaller().sendRequest({ terminalOutput: getTerminalOutput() });
+		  if (response !== undefined && response.problemFiles && response.text !== undefined) {
+			const problemFile: ProblemFile = response.problemFiles[0]
+			const inline: InlineDiagnostic = new InlineDiagnostic(vscode.Uri.file(problemFile.fileName), 
+				new vscode.Range(
+					new vscode.Position(problemFile.line! - 1, 0), 
+					new vscode.Position(problemFile.line! - 1, 0)), 
+				response.text);
+			inline.show();
+      lastResponse = response;
 		}
 
 		if (selectedOption == "Follow Up") {
