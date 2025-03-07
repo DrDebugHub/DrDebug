@@ -3,15 +3,22 @@ import { initSettings } from "./settings";
 import { InlineDiagnostic } from "./extension/InlineDiagnostic";
 import { initTerminal, getTerminalOutput } from "./terminal";
 import { OpenAICaller } from "./ai/OpenAICaller";
+import { ProblemFile } from "./types/ProblemFile";
 
 export function activate(context: vscode.ExtensionContext) {
 	initSettings();
 	initTerminal();
 
 	const askAI = vscode.commands.registerCommand("drDebug.askAI", async () => {
-		let response = (await new OpenAICaller().sendRequest({ terminalOutput: getTerminalOutput() }))
-		if (response !== undefined && response.text !== undefined) {
-			vscode.window.showInformationMessage(response.text, { modal: true });
+		let response = await new OpenAICaller().sendRequest({ terminalOutput: getTerminalOutput() });
+		if (response !== undefined && response.problemFiles && response.text !== undefined) {
+			const problemFile: ProblemFile = response.problemFiles[0]
+			const inline: InlineDiagnostic = new InlineDiagnostic(vscode.Uri.file(problemFile.fileName), 
+				new vscode.Range(
+					new vscode.Position(problemFile.line! - 1, 0), 
+					new vscode.Position(problemFile.line! - 1, 0)), 
+				response.text);
+			inline.show();
 		}
 	});
 
