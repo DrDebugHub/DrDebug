@@ -3,10 +3,13 @@ import { initSettings } from "./settings";
 import { InlineDiagnostic } from "./extension/InlineDiagnostic";
 import { initTerminal, getTerminalOutput } from "./terminal";
 import { OpenAICaller } from "./ai/OpenAICaller";
+import { AIFeedback } from "./types/AIFeedback";
 
 export function activate(context: vscode.ExtensionContext) {
 	initSettings();
 	initTerminal();
+
+	let lastResponse: AIFeedback | undefined;
 
 	const askAI = vscode.commands.registerCommand("drDebug.askAI", async () => {
 		const options = [
@@ -27,12 +30,23 @@ export function activate(context: vscode.ExtensionContext) {
 			let response = (await new OpenAICaller().sendRequest({ terminalOutput: getTerminalOutput() }))
 			if (response !== undefined && response.text !== undefined) {
 				vscode.window.showInformationMessage(response.text, { modal: true });
+				lastResponse = response; // store response for follow-up
 			}
 		}
 
-		if (selectedOption == "Follow up") {
-			// figure out how to get id of previous response (completion_id)
-			// await new OpenAICaller().followUp(previous response)
+		if (selectedOption == "Follow Up") {
+			if (!lastResponse) {
+				vscode.window.showInformationMessage("No previous debug session found. Run 'Debug' first.");
+				return;
+			}
+
+			let followUpResponse = await new OpenAICaller().followUp(lastResponse);
+			if (followUpResponse !== undefined && followUpResponse.text !== undefined) {
+				vscode.window.showInformationMessage(followUpResponse.text, { modal: true });
+				lastResponse = followUpResponse;
+			} else {
+				vscode.window.showInformationMessage("Failed to get a follow-up response.");
+			}
 		}
 	});
 
