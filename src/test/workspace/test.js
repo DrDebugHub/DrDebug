@@ -1,9 +1,9 @@
 function init() {
     let i = 0;
-    setInterval(() => {
+    let interval = setInterval(() => {
         console.log("Test: " + (i++));
         if(i > 5) {
-            throw new Error("Crashed");
+            clearInterval(interval);
         }
     }, 1000);
 }

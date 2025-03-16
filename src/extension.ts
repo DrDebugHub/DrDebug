@@ -6,6 +6,13 @@ import { OpenAICaller } from "./ai/OpenAICaller";
 import { AIFeedback } from "./types/AIFeedback";
 import { ProblemFile } from "./types/ProblemFile";
 
+/**
+ * The entry-point of the extension. Ran as soon as possible by VS Code given the extension
+ * is added to the user's list of installed extensions. Provides necessary registration
+ * logic like initializing settings, the terminal listener, commands, and menu options for
+ * the extension.
+ * @param context The extension context provided by the VS Code Extension loader
+ */
 export function activate(context: vscode.ExtensionContext) {
 	initSettings();
 	initTerminal();
@@ -52,8 +59,7 @@ export function activate(context: vscode.ExtensionContext) {
 					if (followUpResponse.fixed !== undefined && followUpResponse.fixed) {
 						vscode.window.showInformationMessage(followUpResponse.text, { modal: true });
 						lastInline?.hide();
-					}
-					else {
+					} else {
 						const problemFile: ProblemFile = followUpResponse.problemFiles[0];
 						const inline: InlineDiagnostic = new InlineDiagnostic(
 							vscode.Uri.file(problemFile.fileName), 
