@@ -38,6 +38,10 @@ export class InlineDiagnostic implements Inline {
 		}
     }
 
+    public async hide(): Promise<void> {
+        diagnosticCollection.clear();
+    }
+
     private cleanMessage(): void {
         let result = "";
         let lineLength = 0;
